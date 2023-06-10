@@ -7,11 +7,11 @@ env:
   PROJECT_ID: fine-effect-382702
   GAR_LOCATION: us-central1
   REPOSITORY: helm-charts-repo
-  CHART_NAME: proj-store-chart-2
+  CHART_NAME: proj-helm-charts
   CHART_VERSION: 0.1.0
 
 jobs:
-  login-build-push:
+  lint-package-push-chart:
     name: Helm Charts lint, package and push
     runs-on: ubuntu-latest
 
