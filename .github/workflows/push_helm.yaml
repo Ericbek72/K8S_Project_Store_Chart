@@ -39,7 +39,7 @@ jobs:
       - name: Push Helm Chart to GAR
         run: |
           #helm push $CHART_NAME-$CHART_VERSION.tgz oci://us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY
-          export CHART_PACKAGE="${env.CHART_NAME}-${env.CHART_VERSION}.tgz"
+          export CHART_PACKAGE="$CHART_NAME-$CHART_VERSION.tgz"
           export GAR_REGISTRY="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY"
-          export GAR_PATH="${env.PROJECT_ID}/${env.REPOSITORY}/${CHART_PACKAGE}"
+          #export GAR_PATH="${env.PROJECT_ID}/${env.REPOSITORY}/${CHART_PACKAGE}"
           helm push $CHART_PACKAGE "oci://$GAR_REGISTRY" --username=_json_key --password="$(cat ${{ secrets.GCP_SA_KEY_PROJ }})"
