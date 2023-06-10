@@ -42,4 +42,4 @@ jobs:
           export CHART_PACKAGE="$CHART_NAME-$CHART_VERSION.tgz"
           export GAR_REGISTRY="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY"
           #export GAR_PATH="${env.PROJECT_ID}/${env.REPOSITORY}/${CHART_PACKAGE}"
-          helm push $CHART_PACKAGE "oci://$GAR_REGISTRY" --username=_json_key --password="$(cat ${{ secrets.GCP_SA_KEY_PROJ }})"
+          helm push $CHART_PACKAGE "oci://$GAR_REGISTRY" --username=_json_key --password="$(cat "${{ secrets.GCP_SA_KEY_PROJ }}")"
