@@ -8,7 +8,6 @@ env:
   GAR_LOCATION: us-central1
   REPOSITORY: helm-charts-repo
   CHART_NAME: proj-helm-charts
-  CHART_VERSION: 0.1.0
 
 jobs:
   lint-package-push-chart:
@@ -28,7 +27,7 @@ jobs:
         run: helm lint $CHART_NAME
 
       - name: Package Helm Chart
-        run: helm package $CHART_NAME --version $CHART_VERSION --destination .
+        run: helm package $CHART_NAME --version $GITHUB_SHA --destination .
 
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v0.6.0"
@@ -38,9 +37,8 @@ jobs:
 
       - name: Push Helm Chart to GAR
         run: |
-          #helm push $CHART_NAME-$CHART_VERSION.tgz oci://us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY
-          export CHART_PACKAGE="$CHART_NAME-$CHART_VERSION.tgz"
+          #helm push $CHART_NAME-$GITHUB_SHA.tgz oci://us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY
+          export CHART_PACKAGE="$CHART_NAME-$GITHUB_SHA.tgz"
           export GAR_REGISTRY="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY"
           #export GAR_PATH="${env.PROJECT_ID}/${env.REPOSITORY}/${CHART_PACKAGE}"
-          helm registry login us-central1-docker.pkg.dev --username=_json_key --password="$(cat "${{ secrets.GCP_SA_KEY_PROJ }}")"
-          helm push $CHART_PACKAGE "oci://$GAR_REGISTRY"
+          helm push $CHART_PACKAGE "oci://$GAR_REGISTRY" --username=_json_key --password="$(cat ${{ secrets.GCP_SA_KEY_PROJ }})"
