@@ -8,7 +8,7 @@ env:
   GAR_LOCATION: us-central1
   REPOSITORY: helm-charts-repo
   CHART_NAME: helm_charts
-  CHART_VERSION: ${{ env.VERSION_PREFIX }}-${{ env.GITHUB_SHA }}-sha
+  #CHART_VERSION: ${{ env.VERSION_PREFIX }}-${{ env.GITHUB_SHA }}-sha
 
 jobs:
   lint-package-push-chart:
