@@ -8,7 +8,7 @@ env:
   GAR_LOCATION: us-central1
   REPOSITORY: helm-charts-repo
   CHART_NAME: helm_charts
-  CHART_VERSION: "0.1.0-${{ env.GITHUB_SHA[0:5] }}-sha"
+  CHART_VERSION: ${{ env.VERSION_PREFIX }}-${{ env.GITHUB_SHA }}-sha
 
 jobs:
   lint-package-push-chart:
@@ -26,6 +26,13 @@ jobs:
 
       - name: Lint Helm Chart
         run: helm lint $CHART_NAME
+
+      - name: Set Chart Version
+        id: set-chart-version
+        run: |
+          echo "VERSION_PREFIX=0.1.0" >> $GITHUB_ENV
+          echo "VERSION_SUFFIX=-sha" >> $GITHUB_ENV
+          echo "VERSION=${VERSION_PREFIX}-${{ env.GITHUB_SHA }}${VERSION_SUFFIX}" >> $GITHUB_ENV
 
       - name: Package Helm Chart
         run: helm package $CHART_NAME --version $CHART_VERSION --destination .
