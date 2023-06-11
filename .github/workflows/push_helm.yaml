@@ -7,7 +7,7 @@ env:
   PROJECT_ID: fine-effect-382702
   GAR_LOCATION: us-central1
   REPOSITORY: helm-charts-repo
-  CHART_NAME: proj-helm-charts
+  CHART_NAME: helm-charts
 
 jobs:
   lint-package-push-chart:
