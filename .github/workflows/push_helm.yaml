@@ -35,7 +35,9 @@ jobs:
           echo "CHART_VERSION=$VERSION_PREFIX-${GITHUB_SHA}$VERSION_SUFFIX" >> $GITHUB_ENV
 
       - name: Package Helm Chart
-        run: helm package $CHART_NAME --version $CHART_VERSION --destination .
+        run: |
+          cd D:\Study\DevX\DevX_Spring_2023\Kubernetes\30.05.2023.Lesson15.Projects\proj-store-chart-2
+          helm package $CHART_NAME --version $CHART_VERSION --destination .
 
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v0.6.0"
