@@ -36,12 +36,12 @@ jobs:
 
       - name: Package Helm Chart
         run: helm package $CHART_NAME --version $CHART_VERSION --destination .
-      
+
       - name: Set Chart Package
         id: set-chart-package
         run: echo "CHART_PACKAGE=${CHART_NAME}-${CHART_VERSION}.tgz" >> $GITHUB_ENV
 
-       - name: Set GAR Registry
+      - name: Set GAR Registry
         id: set-gar-registry
         run: echo "GAR_REGISTRY=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY" >> $GITHUB_ENV
 
