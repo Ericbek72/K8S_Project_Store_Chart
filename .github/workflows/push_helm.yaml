@@ -37,14 +37,6 @@ jobs:
       - name: Package Helm Chart
         run: helm package $CHART_NAME --version $CHART_VERSION --destination .
 
-      - name: Set Chart Package
-        id: set-chart-package
-        run: echo "CHART_PACKAGE=${CHART_NAME}-${CHART_VERSION}.tgz" >> $GITHUB_ENV
-
-      - name: Set GAR Registry
-        id: set-gar-registry
-        run: echo "GAR_REGISTRY=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY" >> $GITHUB_ENV
-
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v0.6.0"
         with:
@@ -54,10 +46,7 @@ jobs:
       - name: Push Helm Chart to GAR
         run: |
           #helm push $CHART_NAME-$CHART_VERSION.tgz oci://us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY
-          #export CHART_PACKAGE="$CHART_NAME-$CHART_VERSION.tgz"
-          #export GAR_REGISTRY="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY"
+          export CHART_PACKAGE="$CHART_NAME-$CHART_VERSION.tgz"
+          export GAR_REGISTRY="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY"
           #export GAR_PATH="${env.PROJECT_ID}/${env.REPOSITORY}/${CHART_PACKAGE}"
-          helm push $CHART_PACKAGE "oci://${GAR_REGISTRY}"
-
-        env:
-          GCP_SA_KEY_PROJ: ${{ secrets.GCP_SA_KEY_PROJ }}
+          helm push $CHART_PACKAGE "oci://${GAR_REGISTRY}" --username=_json_key --password="$(cat ${{ secrets.GCP_SA_KEY_PROJ }})"
