@@ -10,6 +10,7 @@ env:
   GAR_LOCATION: us-central1
   REPOSITORY: helm-charts-repo
   CHART_NAME: helm_charts
+  VERSION_PREFIX: 0.1.0
 
 jobs:
   lint-package-push-chart:
