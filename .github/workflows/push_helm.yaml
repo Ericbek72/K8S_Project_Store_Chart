@@ -43,8 +43,10 @@ jobs:
           credentials_json: "${{ secrets.GCP_SA_KEY_PROJ }}"
           token_format: "access_token"
 
-      - name: Set Google Cloud credentials file path
-        run: echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::${{ secrets.GCP_SA_KEY_PROJ }}"
+      - name: Write Google Cloud credentials file
+        run: echo "$GOOGLE_APPLICATION_CREDENTIALS_CONTENT" > gha-creds.json
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS_CONTENT: ${{ secrets.GCP_SA_KEY_PROJ }}
 
       - name: Push Helm Chart to GAR
         run: |
@@ -52,4 +54,5 @@ jobs:
           export CHART_PACKAGE="$CHART_NAME-$CHART_VERSION.tgz"
           export GAR_REGISTRY="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY"
           #export GAR_PATH="${env.PROJECT_ID}/${env.REPOSITORY}/${CHART_PACKAGE}"
-          helm push $CHART_PACKAGE "oci://${GAR_REGISTRY}" --username=_json_key --password="$(cat fine-effect-382702-8bacbd700986.json)"
+          helm push $CHART_PACKAGE "oci://${GAR_REGISTRY}"
+          #--username=_json_key --password="$(cat fine-effect-382702-8bacbd700986.json)"
