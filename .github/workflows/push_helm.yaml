@@ -32,7 +32,7 @@ jobs:
       - name: Set Chart Version
         id: set-chart-version
         run: |
-          echo "CHART_VERSION=${VERSION_PREFIX}-${{ github.sha }}${VERSION_SUFFIX}" >> $GITHUB_ENV
+          echo "CHART_VERSION=$VERSION_PREFIX-${GITHUB_SHA}$VERSION_SUFFIX" >> $GITHUB_ENV
 
       - name: Package Helm Chart
         run: helm package $CHART_NAME --version $CHART_VERSION --destination .
@@ -49,4 +49,4 @@ jobs:
           export CHART_PACKAGE="$CHART_NAME-$CHART_VERSION.tgz"
           export GAR_REGISTRY="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY"
           #export GAR_PATH="${env.PROJECT_ID}/${env.REPOSITORY}/${CHART_PACKAGE}"
-          helm push $CHART_PACKAGE "oci://$GAR_REGISTRY" --username=_json_key --password="$(cat ${{ secrets.GCP_SA_KEY_PROJ }})"
+          helm push $CHART_PACKAGE "oci://${GAR_REGISTRY}" --username=_json_key --password="$(cat ${{ secrets.GCP_SA_KEY_PROJ }})"
