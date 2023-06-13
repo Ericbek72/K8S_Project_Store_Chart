@@ -32,7 +32,7 @@ jobs:
       - name: Set Chart Version
         id: set-chart-version
         run: |
-          echo "CHART_VERSION=${VERSION_PREFIX}-${GITHUB_SHA}${VERSION_SUFFIX}" >> $GITHUB_ENV
+          echo "CHART_VERSION=${VERSION_PREFIX}-${{ github.sha }}${VERSION_SUFFIX}" >> $GITHUB_ENV
 
       - name: Package Helm Chart
         run: helm package $CHART_NAME --version $CHART_VERSION --destination .
