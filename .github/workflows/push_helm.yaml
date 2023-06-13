@@ -36,7 +36,7 @@ jobs:
 
       - name: Package Helm Chart
         run: |
-          cd D:\Study\DevX\DevX_Spring_2023\Kubernetes\30.05.2023.Lesson15.Projects\proj-store-chart-2
+          cd D:/Study/DevX/DevX_Spring_2023/Kubernetes/30.05.2023.Lesson15.Projects/proj-store-chart-2
           helm package $CHART_NAME --version $CHART_VERSION --destination .
 
       - name: "Authenticate to Google Cloud"
